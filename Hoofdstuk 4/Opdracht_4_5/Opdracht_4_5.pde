@@ -1,4 +1,4 @@
-//Willekurig hoeveelheid seconden
+//Willekeurig hoeveelheid seconden
 float r = (int) random(0, 31556926);
 
 //Uitrekenen hoeveel uren het zijn en dat in 2 decimalen aangeven

@@ -38,13 +38,13 @@ void draw() {
 }
 
 void keyPressed() {
-  if (key == 'a' && started == false) {
+  if ((key == 'a' || key == 'A') && started == false) {
     starter = true;
   }
-  if (key == 'a' && started == true) {
+  if ((key == 'a' || key == 'A') && started == true) {
     starter = false;
   }
-  if (key == 'r') {
+  if (key == 'r' || key == 'R') {
     timeInMil = 0;
     timeInSec = 0;
     timeInMin = 0;

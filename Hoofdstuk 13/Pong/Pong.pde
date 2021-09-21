@@ -38,6 +38,7 @@ void setup() {
 }
 
 void draw() {
+  frameRate(60);
   background(0);
 
   fill(255);
@@ -72,12 +73,12 @@ void draw() {
 
   if (ballY < (leftPadY + padHeight) && ballY > leftPadY - 20) {
     if (ballX < (leftPadX + padWidth) && ballX > leftPadX) {
-      ballMovementX *= -1.1;
+      ballMovementX *= -1.05;
     }
   }
   if (ballY < (rightPadY + padHeight) && ballY > rightPadY - 20) {
     if (ballX > (rightPadX - padWidth) && ballX < rightPadX) {
-      ballMovementX *= -1.1;
+      ballMovementX *= -1.05;
     }
   }
 
@@ -173,6 +174,21 @@ void keyPressed() {
     gameStart = true;
     moveBall();
   }
+
+  if ((key == 'R' || key == 'r') && gameStart == true) {
+    gameStart = false;
+    reset();
+  }
+}
+
+void reset() {
+  frameCount = -1;
+  ballX = (ballWidth / 2) + 375;
+  ballY = (ballHeight / 2) + 225;
+  ballMovementX = 0;
+  ballMovementY = 0;
+  leftPadY = 205;
+  rightPadY = 205;
 }
 
 void keyReleased() {

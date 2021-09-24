@@ -32,6 +32,9 @@ boolean leftUp, leftDown, rightUp, rightDown;
 //Checks if the game has been started
 boolean gameStart = false;
 
+//A boolean to know if it is a round against the CPU or if it is a round against another player
+boolean cpuActive;
+
 //Puts up sketch size
 void setup() {
   size(780, 480);
@@ -64,7 +67,8 @@ void draw() {
   //Prints something when the game hasn't started yet.
   if (gameStart == false) {
     textSize(25);
-    text("Press T to Start!", 300, 400);
+    text("Press 1 to start game against CPU!", 180, 400);
+    text("Press 2 to start 2 player game!", 200, 430);
   }
 
   //Prints the score for both sides when the game has started
@@ -84,11 +88,13 @@ void draw() {
   if (ballY < (leftPadY + padHeight) && ballY > leftPadY - 20) {
     if (ballX < (leftPadX + padWidth) && ballX > leftPadX) {
       ballMovementX *= -1.05;
+      ballMovementY = ballMovementY + 0.1 * (ballY - leftPadY);
     }
   }
   if (ballY < (rightPadY + padHeight) && ballY > rightPadY - 20) {
     if (ballX > (rightPadX - padWidth) && ballX < rightPadX) {
       ballMovementX *= -1.05;
+      ballMovementY = ballMovementY + 0.1 * (ballY - rightPadY);
     }
   }
 
@@ -114,17 +120,25 @@ void draw() {
 
 //Accelerates the pads up or down when their up or down buttons are pressed
 void accelPads() {
+  //Only active when the cpu isn't active
   if (rightUp) {
     rightPadMovementY -= 2;
-  }
-  if (rightDown) {
+  } else if (rightDown) {
     rightPadMovementY += 2;
+  } //Only active when the cpu is active 
+  else if (cpuActive) {
+    //Literally undefeatable AI down here
+    //rightPadMovementY = rightPadMovementY + (ballY + ballHeight / 2  - (rightPadY + (padHeight / 2))) * 0.5;
+    if (ballY + ballHeight / 2 < (rightPadY + padHeight / 2)) {
+      rightPadMovementY -= 2;
+    } else if (ballY > rightPadY - 20) {
+      rightPadMovementY += 2;
+    }
   }
 
   if (leftUp) {
     leftPadMovementY -= 2;
-  }
-  if (leftDown) {
+  } else if (leftDown) {
     leftPadMovementY += 2;
   }
 }
@@ -178,10 +192,10 @@ void ballReset() {
 
 void keyPressed() {
   //Up and Down arrow buttons for the right pad up/down
-  if (keyCode == 38) {
+  if (keyCode == 38 && cpuActive == false) {
     rightUp = true;
   }
-  if (keyCode == 40) {
+  if (keyCode == 40 && cpuActive == false) {
     rightDown = true;
   }
 
@@ -193,15 +207,23 @@ void keyPressed() {
     leftDown = true;
   }
 
-  //T to start the game if it hasn't started already
-  if ((key == 'T' || key == 't') && gameStart == false) {
+  //1 to start game against a CPU if it hasn't started already
+  if (key == '1' && gameStart == false) {
     gameStart = true;
+    cpuActive = true;
+    moveBall();
+  }  
+
+  if (key == '2' && gameStart == false) {
+    gameStart = true;
+    cpuActive = false;
     moveBall();
   }
 
   //R to reset the game if it has started
   if ((key == 'R' || key == 'r') && gameStart == true) {
     gameStart = false;
+    cpuActive = false;
     reset();
   }
 }
@@ -209,10 +231,10 @@ void keyPressed() {
 //Resets game to what it was before the start
 void reset() {
   frameCount = -1;
-  ballX = (ballWidth / 2) + 375;
-  ballY = (ballHeight / 2) + 225;
   ballMovementX = 0;
   ballMovementY = 0;
+  ballX = (ballWidth / 2) + 375;
+  ballY = (ballHeight / 2) + 225;
   leftPadY = 205;
   rightPadY = 205;
 }

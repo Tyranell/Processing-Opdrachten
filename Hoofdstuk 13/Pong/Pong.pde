@@ -207,13 +207,14 @@ void keyPressed() {
     leftDown = true;
   }
 
-  //1 to start game against a CPU if it hasn't started already
+  //1 to start a game against a CPU if it hasn't started already
   if (key == '1' && gameStart == false) {
     gameStart = true;
     cpuActive = true;
     moveBall();
   }  
-
+  
+  //2 to start a game against another player
   if (key == '2' && gameStart == false) {
     gameStart = true;
     cpuActive = false;

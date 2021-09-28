@@ -130,9 +130,9 @@ void accelPads() {
     //Literally undefeatable AI down here
     //rightPadMovementY = rightPadMovementY + (ballY + ballHeight / 2  - (rightPadY + (padHeight / 2))) * 0.5;
     if (ballY + ballHeight / 2 < (rightPadY + padHeight / 2)) {
-      rightPadMovementY -= 2;
+      rightPadMovementY -= 1.5;
     } else if (ballY > rightPadY - 20) {
-      rightPadMovementY += 2;
+      rightPadMovementY += 1.5;
     }
   }
 
